@@ -1,9 +1,11 @@
+// src/hooks/useTemplateDetail.ts
 import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
+import type { ApiResponse } from '../api/types';
 import { templatesApi } from '../api/templates/templates.api';
 
 export interface Template {
-  id: number;
+  id: string;             // Ubah ke string supaya kompatibel
   title: string;
   description: string;
   price: string;
@@ -28,21 +30,26 @@ export const useTemplateDetail = (id?: string) => {
       return;
     }
 
+    setLoading(true);
+    setError(null);
+
     templatesApi.getById(id)
-      .then((res: ApiTemplate) => {
-        if (!res) throw new Error('Template not found');
+      .then((res: ApiResponse<ApiTemplate>) => {
+        if (!res || !res.data) throw new Error('Template not found');
+
+        const t = res.data;
 
         const transformed: Template = {
-          id: res.id,
-          title: res.title,
-          description: res.description,
-          price: res.price,
-          category: res.category,
-          type: res.type,
-          style: res.style,
-          features: res.features || [],
-          techStack: res.tech_stack || [],
-          imageUrl: res.image_url || '',
+          id: t.id.toString(),        // convert ke string
+          title: t.title,
+          description: t.description,
+          price: t.price,
+          category: t.category,
+          type: t.type,
+          style: t.style,
+          features: t.features || [],
+          techStack: t.tech_stack || [],
+          imageUrl: t.image_url || '',
         };
 
         setTemplate(transformed);

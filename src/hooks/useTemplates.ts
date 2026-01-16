@@ -1,9 +1,12 @@
+// src/hooks/useTemplates.ts
 import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
+import type { ApiResponse } from '../api/types';
 import { templatesApi } from '../api/templates/templates.api';
 
+// Frontend-friendly Template type
 export interface Template {
-  id: number;
+  id: string;            // Ubah ke string untuk konsistensi global
   title: string;
   description: string;
   price: string;
@@ -21,12 +24,17 @@ export const useTemplates = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    templatesApi.getAll()
-      .then((res: ApiTemplate[]) => {
-        if (!res || !res.length) throw new Error('No templates found');
+    setLoading(true);
+    setError(null);
 
-        const mapped: Template[] = res.map(t => ({
-          id: t.id,
+    templatesApi.getAll()
+      .then((res: ApiResponse<ApiTemplate[]>) => {
+        if (!res || !res.data || res.data.length === 0) {
+          throw new Error('No templates found');
+        }
+
+        const mapped: Template[] = res.data.map(t => ({
+          id: t.id.toString(),          // convert ke string
           title: t.title,
           description: t.description,
           price: t.price,
