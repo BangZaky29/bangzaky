@@ -1,5 +1,6 @@
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
-  count?: number;
+  message?: string;
+  count?: number; // optional, untuk list API
 }

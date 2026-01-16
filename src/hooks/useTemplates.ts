@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react';
-import type { Template } from '../api/templates/templates.types';
+import type { Template as ApiTemplate } from '../api/templates/templates.types';
 import { templatesApi } from '../api/templates/templates.api';
+
+export interface Template {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  category: string;
+  type: string;
+  style: string;
+  features: string[];
+  techStack: string[];
+  imageUrl: string;
+}
 
 export const useTemplates = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -9,12 +22,10 @@ export const useTemplates = () => {
 
   useEffect(() => {
     templatesApi.getAll()
-      .then((res) => {
-        console.log('API Response (already json.data):', res);
+      .then((res: ApiTemplate[]) => {
+        if (!res || !res.length) throw new Error('No templates found');
 
-        // res sekarang adalah T, yaitu Template[]
-        // Mapping ke camelCase supaya TS konsisten
-        const mappedData = (res as any[]).map(t => ({
+        const mapped: Template[] = res.map(t => ({
           id: t.id,
           title: t.title,
           description: t.description,
@@ -22,12 +33,12 @@ export const useTemplates = () => {
           category: t.category,
           type: t.type,
           style: t.style,
-          imageUrl: t.image_url,   // snake_case → camelCase
-          techStack: t.tech_stack, // snake_case → camelCase
-          features: t.features,
+          features: t.features || [],
+          techStack: t.tech_stack || [],
+          imageUrl: t.image_url || '',
         }));
 
-        setTemplates(mappedData);
+        setTemplates(mapped);
       })
       .catch(err => {
         console.error('Failed to fetch templates:', err);

@@ -1,9 +1,7 @@
-// src/hooks/useTemplateDetail.ts
 import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
 import { templatesApi } from '../api/templates/templates.api';
 
-// Versi frontend-friendly Template
 export interface Template {
   id: number;
   title: string;
@@ -12,9 +10,9 @@ export interface Template {
   category: string;
   type: string;
   style: string;
+  features: string[];
   techStack: string[];
   imageUrl: string;
-  features: string[];
 }
 
 export const useTemplateDetail = (id?: string) => {
@@ -30,12 +28,10 @@ export const useTemplateDetail = (id?: string) => {
       return;
     }
 
-    setLoading(true);
-    setError(null);
-
     templatesApi.getById(id)
       .then((res: ApiTemplate) => {
-        // Transform snake_case -> camelCase
+        if (!res) throw new Error('Template not found');
+
         const transformed: Template = {
           id: res.id,
           title: res.title,
@@ -51,7 +47,7 @@ export const useTemplateDetail = (id?: string) => {
 
         setTemplate(transformed);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error('Failed to fetch template detail:', err);
         setError(err.message || 'Failed to load template');
       })
