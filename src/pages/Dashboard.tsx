@@ -3,7 +3,7 @@ import { Panel } from '../components/ui/Panel';
 import { Button } from '../components/ui/Button';
 import { usePurchases } from '../hooks/usePurchases';
 import { DEMO_USER_ID } from '../constants';
-import { Download, Package, Clock, ExternalLink, Loader2, ShieldCheck } from 'lucide-react';
+import { Download, Package, ExternalLink, Loader2, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
@@ -89,9 +89,6 @@ const Dashboard: React.FC = () => {
                 <Panel key={purchase.id} className="p-0 overflow-hidden hover:border-accent-primary/30 transition-colors group">
                   <div className="flex flex-col md:flex-row">
                     {/* Thumbnail */}
-                    <div className="w-full md:w-48 h-32 md:h-auto relative bg-bg-main border-b md:border-b-0 md:border-r border-border-soft">
-                      <img src={template.imageUrl} alt={template.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                    </div>
                     
                     {/* Content */}
                     <div className="flex-grow p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">

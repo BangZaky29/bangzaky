@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Panel } from '../components/ui/Panel';
 import { Button } from '../components/ui/Button';
-import { ExternalLink, Globe, Loader2, RefreshCw, X, Maximize2, Layers, Cpu } from 'lucide-react';
+import { ExternalLink, Globe, Loader2, X, Maximize2, Layers, Cpu } from 'lucide-react';
 import { PORTFOLIO_ITEMS } from '../constants';
 import type { PortfolioItem } from '../types';
 
@@ -141,7 +141,7 @@ const PortfolioCard: React.FC<{ item: PortfolioItem; onSelect: () => void }> = (
   const [isLoading, setIsLoading] = useState(true);
   
   // Ref key to force reload if needed
-  const [key, setKey] = useState(0); 
+  const [key] = useState(0); 
 
   return (
     <Panel 

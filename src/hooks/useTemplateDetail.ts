@@ -1,5 +1,5 @@
 // src/hooks/useTemplateDetail.ts
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
 import { templatesApi } from '../api/templates/templates.api';
 
