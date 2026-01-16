@@ -3,23 +3,10 @@ import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
 import type { ApiResponse } from '../api/types';
 import { templatesApi } from '../api/templates/templates.api';
-
-// Frontend-friendly Template type
-export interface Template {
-  id: string;            // Ubah ke string untuk konsistensi global
-  title: string;
-  description: string;
-  price: string;
-  category: string;
-  type: string;
-  style: string;
-  features: string[];
-  techStack: string[];
-  imageUrl: string;
-}
+import type { Template as GlobalTemplate } from '../types'; // gunakan tipe global
 
 export const useTemplates = () => {
-  const [templates, setTemplates] = useState<Template[]>([]);
+  const [templates, setTemplates] = useState<GlobalTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,11 +20,11 @@ export const useTemplates = () => {
           throw new Error('No templates found');
         }
 
-        const mapped: Template[] = res.data.map(t => ({
-          id: t.id.toString(),          // convert ke string
+        const mapped: GlobalTemplate[] = res.data.map(t => ({
+          id: t.id.toString(),
           title: t.title,
           description: t.description,
-          price: t.price,
+          price: Number(t.price),       // tetap number
           category: t.category,
           type: t.type,
           style: t.style,

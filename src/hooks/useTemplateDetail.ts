@@ -3,22 +3,10 @@ import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
 import type { ApiResponse } from '../api/types';
 import { templatesApi } from '../api/templates/templates.api';
-
-export interface Template {
-  id: string;             // Ubah ke string supaya kompatibel
-  title: string;
-  description: string;
-  price: string;
-  category: string;
-  type: string;
-  style: string;
-  features: string[];
-  techStack: string[];
-  imageUrl: string;
-}
+import type { Template as GlobalTemplate } from '../types';
 
 export const useTemplateDetail = (id?: string) => {
-  const [template, setTemplate] = useState<Template | null>(null);
+  const [template, setTemplate] = useState<GlobalTemplate | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,11 +27,11 @@ export const useTemplateDetail = (id?: string) => {
 
         const t = res.data;
 
-        const transformed: Template = {
-          id: t.id.toString(),        // convert ke string
+        const transformed: GlobalTemplate = {
+          id: t.id.toString(),
           title: t.title,
           description: t.description,
-          price: t.price,
+          price: Number(t.price),     // tetap number
           category: t.category,
           type: t.type,
           style: t.style,
