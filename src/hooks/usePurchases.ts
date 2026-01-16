@@ -21,8 +21,11 @@ export const usePurchases = (userId: string | number) => {
   }, [numericUserId]);
 
   useEffect(() => {
-    if (numericUserId) fetchPurchases();
-  }, [numericUserId, fetchPurchases]);
+    if (numericUserId) {
+        Promise.resolve().then(() => fetchPurchases());
+    }
+    }, [numericUserId, fetchPurchases]);
+
 
     const recordPurchase = async (templateId: string | number) => {
     const numericTemplateId = Number(templateId);

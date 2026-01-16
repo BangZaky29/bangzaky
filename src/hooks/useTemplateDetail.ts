@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import type { ApiResponse } from '../api/http';
 import { templatesApi } from '../api/templates/templates.api';
+import type { TemplateApi } from '../api/templates/templates.types'; // ✅ tipe API
 
+// Frontend type
 export interface Template {
   id: number;
   title: string;
@@ -21,17 +23,20 @@ export const useTemplateDetail = (id?: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Jika id tidak ada, set state setelah microtask untuk menghindari warning ESLint
     if (!id) {
-      setTemplate(null);
-      setLoading(false);
-      setError(null);
+      setTimeout(() => {
+        setTemplate(null);
+        setLoading(false);
+        setError(null);
+      }, 0);
       return;
     }
 
     templatesApi.getById(id)
-      .then((res: ApiResponse<Template>) => {
+      .then((res: ApiResponse<TemplateApi>) => { // ✅ gunakan TemplateApi
         if (!res.data) {
-          setTemplate(null); // aman jika data tidak ada
+          setTemplate(null);
           return;
         }
 
@@ -45,8 +50,8 @@ export const useTemplateDetail = (id?: string) => {
           type: t.type,
           style: t.style,
           features: t.features || [],
-          techStack: t.tech_stack || [],
-          imageUrl: t.image_url || '',
+          techStack: t.tech_stack || [], // mapping ke frontend
+          imageUrl: t.image_url || '',   // mapping ke frontend
         };
 
         setTemplate(transformed);

@@ -1,11 +1,10 @@
-// C:\codingVibes\myPortfolio\bangzaky\src\hooks\useTemplates.ts
-
 import { useState, useEffect } from 'react';
 import type { ApiResponse } from '../api/http';
 import { templatesApi } from '../api/templates/templates.api';
+import type { TemplateApi } from '../api/templates/templates.types';
 
 export interface Template {
-  id: number; // tetap number sesuai backend
+  id: number;
   title: string;
   description: string;
   price: string;
@@ -24,22 +23,21 @@ export const useTemplates = () => {
 
   useEffect(() => {
     templatesApi.getAll()
-      .then((res: ApiResponse<Template[]>) => {
-        const data = res.data || []; // aman jika kosong
+      .then((res: ApiResponse<TemplateApi[]>) => { // <-- pakai TemplateApi
+        const data = res.data || [];
         const mapped: Template[] = data.map(t => ({
-        id: String(t.id),       // <-- ubah number → string
-        title: t.title,
-        description: t.description,
-        price: t.price,
-        category: t.category,
-        type: t.type,
-        style: t.style,
-        features: t.features || [],
-        techStack: t.tech_stack || [],
-        imageUrl: t.image_url || '',
+          id: t.id,
+          title: t.title,
+          description: t.description,
+          price: t.price,
+          category: t.category,
+          type: t.type,
+          style: t.style,
+          features: t.features || [],
+          techStack: t.tech_stack || [], // mapping ke techStack
+          imageUrl: t.image_url || '',   // mapping ke imageUrl
         }));
-
-        setTemplates(mapped || []); // pastikan selalu array
+        setTemplates(mapped);
       })
       .catch(err => {
         console.error('Failed to fetch templates:', err);

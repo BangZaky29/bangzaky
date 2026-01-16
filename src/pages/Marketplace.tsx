@@ -1,3 +1,5 @@
+// C:\codingVibes\myPortfolio\bangzaky\src\pages\Marketplace.tsx
+
 import React, { useState, useMemo } from 'react';
 import { useTemplates } from '../hooks/useTemplates';
 import { TemplateCard } from '../components/TemplateCard';

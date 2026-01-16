@@ -1,3 +1,5 @@
+/// C:\codingVibes\myPortfolio\bangzaky\src\components\ui\BackgroundAnimation.tsx
+
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Plus, Minus } from 'lucide-react';

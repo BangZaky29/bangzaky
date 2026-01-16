@@ -9,17 +9,18 @@ export interface NavItem {
 
 
 export interface Template {
-  id: number;
+  id: number;           // tetap number sesuai backend
   title: string;
   description: string;
-  price: number;
+  price: string;        // sesuai API, jangan ubah ke number
   category: string;
   type: string;
   style: string;
-  techStack: string[];
-  imageUrl: string;
   features: string[];
+  techStack: string[];  // mapping dari tech_stack API
+  imageUrl: string;     // mapping dari image_url API
 }
+
 
 export interface User {
   name: string;
