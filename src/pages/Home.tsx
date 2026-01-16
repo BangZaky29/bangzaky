@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Panel } from '../components/ui/Panel';
@@ -36,7 +37,7 @@ const Home: React.FC = () => {
             <Button size="lg" className="min-w-[180px]" onClick={() => navigate('/market')}>
               Browse Database <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button size="lg" variant="secondary" className="min-w-[180px]" onClick={() => navigate('/about')}>
+            <Button size="lg" variant="secondary" className="min-w-[180px]" onClick={() => navigate('/portfolio')}>
               View Portfolio
             </Button>
           </div>

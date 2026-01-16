@@ -1,15 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <title>BangZaky | Premium Web Templates</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       body {
         background-color: #0b1412;
         color: #ecfeff;
+        cursor: none; /* Hide default cursor globally */
       }
       /* Custom Scrollbar for the Space Console feel */
       ::-webkit-scrollbar {
@@ -25,6 +26,11 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #2dd4bf; 
       }
+      
+      /* Ensure links and buttons also hide cursor to prevent system override */
+      a, button, input, textarea, [role="button"] {
+        cursor: none !important;
+      }
     </style>
   <script type="importmap">
 {
@@ -33,7 +39,8 @@
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "framer-motion": "https://esm.sh/framer-motion@10.16.4"
   }
 }
 </script>

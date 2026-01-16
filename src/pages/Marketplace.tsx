@@ -57,7 +57,7 @@ const Marketplace: React.FC = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-20">
       {/* Header & Search */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-border-soft/50">
         <div>
@@ -161,7 +161,7 @@ const Marketplace: React.FC = () => {
              Showing {filteredTemplates.length} {filteredTemplates.length === 1 ? 'result' : 'results'}
            </div>
            
-           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {filteredTemplates.length > 0 ? (
               filteredTemplates.map(template => (
                 <TemplateCard key={template.id} template={template} />
