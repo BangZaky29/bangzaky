@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import type { ApiResponse } from '../api/http';
 import { templatesApi } from '../api/templates/templates.api';
 
 export interface Template {
   id: number;
   title: string;
   description: string;
-  price: string; // <- backend sudah string
+  price: string;
   category: string;
   type: string;
   style: string;
@@ -28,27 +29,28 @@ export const useTemplateDetail = (id?: string) => {
     }
 
     templatesApi.getById(id)
-        .then(res => {
-            if (!res.data) throw new Error('Template not found');
+      .then((res: ApiResponse<Template>) => {
+        if (!res.data) {
+          setTemplate(null); // aman jika data tidak ada
+          return;
+        }
 
-            const t = res.data;
+        const t = res.data;
+        const transformed: Template = {
+          id: t.id,
+          title: t.title,
+          description: t.description,
+          price: t.price,
+          category: t.category,
+          type: t.type,
+          style: t.style,
+          features: t.features || [],
+          techStack: t.tech_stack || [],
+          imageUrl: t.image_url || '',
+        };
 
-            const transformed: Template = {
-            id: t.id,
-            title: t.title,
-            description: t.description,
-            price: t.price,
-            category: t.category,
-            type: t.type,
-            style: t.style,
-            features: t.features || [],
-            techStack: t.tech_stack || [],
-            imageUrl: t.image_url || '',
-            };
-
-            setTemplate(transformed);
-        })
-
+        setTemplate(transformed);
+      })
       .catch(err => {
         console.error('Failed to fetch template detail:', err);
         setError(err.message || 'Failed to load template');

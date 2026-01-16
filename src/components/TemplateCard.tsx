@@ -1,3 +1,5 @@
+// C:\codingVibes\myPortfolio\bangzaky\src\components\TemplateCard.tsx
+
 import React from 'react';
 import type { Template } from '../types';
 import { Panel } from './ui/Panel';

@@ -9,7 +9,7 @@ export interface NavItem {
 
 
 export interface Template {
-  id: string;
+  id: number;
   title: string;
   description: string;
   price: number;

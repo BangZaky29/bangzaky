@@ -1,12 +1,14 @@
+// C:\codingVibes\myPortfolio\bangzaky\src\hooks\useTemplates.ts
+
 import { useState, useEffect } from 'react';
-import type { Template as ApiTemplate } from '../api/templates/templates.types';
+import type { ApiResponse } from '../api/http';
 import { templatesApi } from '../api/templates/templates.api';
 
 export interface Template {
-  id: number;
+  id: number; // tetap number sesuai backend
   title: string;
   description: string;
-  price: string; // <- backend sudah string
+  price: string;
   category: string;
   type: string;
   style: string;
@@ -22,25 +24,22 @@ export const useTemplates = () => {
 
   useEffect(() => {
     templatesApi.getAll()
-        .then(res => {
-            if (!res.data || !res.data.length) throw new Error('No templates found');
-
-            const mapped: Template[] = res.data.map(t => ({
-            id: t.id,
-            title: t.title,
-            description: t.description,
-            price: t.price,
-            category: t.category,
-            type: t.type,
-            style: t.style,
-            features: t.features || [],
-            techStack: t.tech_stack || [],
-            imageUrl: t.image_url || '',
-            }));
-
-            setTemplates(mapped);
-        })
-
+      .then((res: ApiResponse<Template[]>) => {
+        const data = res.data || []; // aman jika kosong
+        const mapped: Template[] = data.map(t => ({
+          id: String(t.id),   
+          title: t.title,
+          description: t.description,
+          price: t.price,
+          category: t.category,
+          type: t.type,
+          style: t.style,
+          features: t.features || [],
+          techStack: t.tech_stack || [],
+          imageUrl: t.image_url || '',
+        }));
+        setTemplates(mapped || []); // pastikan selalu array
+      })
       .catch(err => {
         console.error('Failed to fetch templates:', err);
         setError(err.message || 'Failed to fetch templates');
