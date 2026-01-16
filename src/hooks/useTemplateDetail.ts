@@ -1,12 +1,21 @@
-// src/hooks/useTemplateDetail.ts
 import { useState, useEffect } from 'react';
-import type { Template as ApiTemplate } from '../api/templates/templates.types';
-import type { ApiResponse } from '../api/types';
 import { templatesApi } from '../api/templates/templates.api';
-import type { Template as GlobalTemplate } from '../types';
+
+export interface Template {
+  id: number;
+  title: string;
+  description: string;
+  price: string; // <- backend sudah string
+  category: string;
+  type: string;
+  style: string;
+  features: string[];
+  techStack: string[];
+  imageUrl: string;
+}
 
 export const useTemplateDetail = (id?: string) => {
-  const [template, setTemplate] = useState<GlobalTemplate | null>(null);
+  const [template, setTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,26 +27,21 @@ export const useTemplateDetail = (id?: string) => {
       return;
     }
 
-    setLoading(true);
-    setError(null);
-
     templatesApi.getById(id)
-      .then((res: ApiResponse<ApiTemplate>) => {
-        if (!res || !res.data) throw new Error('Template not found');
+      .then((res) => {
+        if (!res) throw new Error('Template not found');
 
-        const t = res.data;
-
-        const transformed: GlobalTemplate = {
-          id: t.id.toString(),
-          title: t.title,
-          description: t.description,
-          price: Number(t.price),     // tetap number
-          category: t.category,
-          type: t.type,
-          style: t.style,
-          features: t.features || [],
-          techStack: t.tech_stack || [],
-          imageUrl: t.image_url || '',
+        const transformed: Template = {
+          id: res.id,
+          title: res.title,
+          description: res.description,
+          price: res.price, // sudah string
+          category: res.category,
+          type: res.type,
+          style: res.style,
+          features: res.features || [],
+          techStack: res.tech_stack || [],
+          imageUrl: res.image_url || '',
         };
 
         setTemplate(transformed);

@@ -1,30 +1,36 @@
-// src/hooks/useTemplates.ts
 import { useState, useEffect } from 'react';
 import type { Template as ApiTemplate } from '../api/templates/templates.types';
-import type { ApiResponse } from '../api/types';
 import { templatesApi } from '../api/templates/templates.api';
-import type { Template as GlobalTemplate } from '../types'; // gunakan tipe global
+
+export interface Template {
+  id: number;
+  title: string;
+  description: string;
+  price: string; // <- backend sudah string
+  category: string;
+  type: string;
+  style: string;
+  features: string[];
+  techStack: string[];
+  imageUrl: string;
+}
 
 export const useTemplates = () => {
-  const [templates, setTemplates] = useState<GlobalTemplate[]>([]);
+  const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
-
     templatesApi.getAll()
-      .then((res: ApiResponse<ApiTemplate[]>) => {
-        if (!res || !res.data || res.data.length === 0) {
-          throw new Error('No templates found');
-        }
+      .then((res) => {
+        // backend mengembalikan { success: true, count, data }
+        if (!res || !res.length) throw new Error('No templates found');
 
-        const mapped: GlobalTemplate[] = res.data.map(t => ({
-          id: t.id.toString(),
+        const mapped: Template[] = res.map(t => ({
+          id: t.id,
           title: t.title,
           description: t.description,
-          price: Number(t.price),       // tetap number
+          price: t.price,  // sudah string
           category: t.category,
           type: t.type,
           style: t.style,
