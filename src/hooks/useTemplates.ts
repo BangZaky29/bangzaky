@@ -27,17 +27,18 @@ export const useTemplates = () => {
       .then((res: ApiResponse<Template[]>) => {
         const data = res.data || []; // aman jika kosong
         const mapped: Template[] = data.map(t => ({
-          id: String(t.id),   
-          title: t.title,
-          description: t.description,
-          price: t.price,
-          category: t.category,
-          type: t.type,
-          style: t.style,
-          features: t.features || [],
-          techStack: t.tech_stack || [],
-          imageUrl: t.image_url || '',
+        id: String(t.id),       // <-- ubah number → string
+        title: t.title,
+        description: t.description,
+        price: t.price,
+        category: t.category,
+        type: t.type,
+        style: t.style,
+        features: t.features || [],
+        techStack: t.tech_stack || [],
+        imageUrl: t.image_url || '',
         }));
+
         setTemplates(mapped || []); // pastikan selalu array
       })
       .catch(err => {
