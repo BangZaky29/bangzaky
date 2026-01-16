@@ -22,25 +22,25 @@ export const useTemplates = () => {
 
   useEffect(() => {
     templatesApi.getAll()
-      .then((res) => {
-        // backend mengembalikan { success: true, count, data }
-        if (!res || !res.length) throw new Error('No templates found');
+        .then(res => {
+            if (!res.data || !res.data.length) throw new Error('No templates found');
 
-        const mapped: Template[] = res.map(t => ({
-          id: t.id,
-          title: t.title,
-          description: t.description,
-          price: t.price,  // sudah string
-          category: t.category,
-          type: t.type,
-          style: t.style,
-          features: t.features || [],
-          techStack: t.tech_stack || [],
-          imageUrl: t.image_url || '',
-        }));
+            const mapped: Template[] = res.data.map(t => ({
+            id: t.id,
+            title: t.title,
+            description: t.description,
+            price: t.price,
+            category: t.category,
+            type: t.type,
+            style: t.style,
+            features: t.features || [],
+            techStack: t.tech_stack || [],
+            imageUrl: t.image_url || '',
+            }));
 
-        setTemplates(mapped);
-      })
+            setTemplates(mapped);
+        })
+
       .catch(err => {
         console.error('Failed to fetch templates:', err);
         setError(err.message || 'Failed to fetch templates');

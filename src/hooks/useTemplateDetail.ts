@@ -28,24 +28,27 @@ export const useTemplateDetail = (id?: string) => {
     }
 
     templatesApi.getById(id)
-      .then((res) => {
-        if (!res) throw new Error('Template not found');
+        .then(res => {
+            if (!res.data) throw new Error('Template not found');
 
-        const transformed: Template = {
-          id: res.id,
-          title: res.title,
-          description: res.description,
-          price: res.price, // sudah string
-          category: res.category,
-          type: res.type,
-          style: res.style,
-          features: res.features || [],
-          techStack: res.tech_stack || [],
-          imageUrl: res.image_url || '',
-        };
+            const t = res.data;
 
-        setTemplate(transformed);
-      })
+            const transformed: Template = {
+            id: t.id,
+            title: t.title,
+            description: t.description,
+            price: t.price,
+            category: t.category,
+            type: t.type,
+            style: t.style,
+            features: t.features || [],
+            techStack: t.tech_stack || [],
+            imageUrl: t.image_url || '',
+            };
+
+            setTemplate(transformed);
+        })
+
       .catch(err => {
         console.error('Failed to fetch template detail:', err);
         setError(err.message || 'Failed to load template');
